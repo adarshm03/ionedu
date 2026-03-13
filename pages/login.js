@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 // ── CREDENTIALS ────────────────────────────────────────────
 const VALID_USERNAME = '1bi24is010';
-const VALID_PASSWORD = '01012006'; // ← replace this with your number
+const VALID_PASSWORD = '14122005'; // ← replace this with your number
 // ──────────────────────────────────────────────────────────
 
 export default function Login() {
