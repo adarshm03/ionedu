@@ -27,6 +27,11 @@ export default function Results() {
     document.title = original;
   };
 
+  const logout = () => {
+    sessionStorage.removeItem('ion_auth');
+    router.replace('/login');
+  };
+
   return (
     <>
       <Head>
@@ -37,37 +42,77 @@ export default function Results() {
 
       <style>{`
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
           font-family: Helvetica, Arial, sans-serif;
           background: #f0f0f0;
           color: #000;
           font-size: 13px;
         }
-        .screen-wrapper {
+
+        /* ── TOP BAR ── */
+        .topbar {
+          background: #fff;
+          border-bottom: 1px solid #ddd;
+          padding: 10px 20px;
           display: flex;
-          flex-direction: column;
+          justify-content: space-between;
           align-items: center;
-          padding: 30px 20px;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        .topbar-brand {
+          font-size: 16px;
+          font-weight: 800;
+        }
+        .topbar-brand span { color: #e53e2b; }
+        .topbar-actions {
+          display: flex;
+          gap: 10px;
+          align-items: center;
         }
         .download-btn {
-          margin-bottom: 20px;
           background: #3d7a7a;
           color: #fff;
           border: none;
           border-radius: 6px;
-          padding: 10px 32px;
-          font-size: 14px;
+          padding: 8px 18px;
+          font-size: 13px;
           font-weight: 600;
           cursor: pointer;
-          letter-spacing: 0.3px;
         }
         .download-btn:hover { background: #2f6262; }
+        .logout-btn {
+          background: #fff;
+          color: #e53e2b;
+          border: 1.5px solid #e53e2b;
+          border-radius: 6px;
+          padding: 8px 18px;
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+        .logout-btn:hover { background: #fff5f5; }
+
+        /* ── WRAPPER ── */
+        .screen-wrapper {
+          padding: 24px 16px 40px 16px;
+          display: flex;
+          justify-content: center;
+        }
+
+        /* ── PAGE (result sheet) ── */
         .page {
-          width: 900px;
+          width: 100%;
+          max-width: 900px;
           background: #fff;
           padding: 24px 30px 30px 30px;
           box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+          overflow-x: auto;
         }
+
         .header {
           display: flex;
           align-items: center;
@@ -79,6 +124,7 @@ export default function Results() {
         .header-text .t1 { font-size: 20px; font-weight: bold; color: #000; }
         .header-text .t2 { font-size: 12px; font-weight: normal; color: #000; }
         .header-text .t3 { font-size: 13px; font-weight: bold; color: #000; }
+
         .info-block {
           display: flex;
           justify-content: space-between;
@@ -87,8 +133,10 @@ export default function Results() {
         }
         .info-row { line-height: 1.7; }
         .info-row .val { font-weight: bold; color: #000; }
+
         .sem-heading { font-size: 13px; font-weight: bold; color: #000; margin-bottom: 6px; }
-        table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; min-width: 600px; }
         th {
           background: #eeeeee;
           border: 1px solid #000;
@@ -117,6 +165,7 @@ export default function Results() {
         .c7 { width: 58px; }
         .c8 { width: 52px; }
         .c9 { width: 52px; }
+
         .grade-box {
           background: #f5f5f5;
           border: 1px solid #cccccc;
@@ -127,6 +176,7 @@ export default function Results() {
           color: #000;
         }
         .grade-box .gb-title { font-weight: bold; font-size: 11.5px; margin-bottom: 2px; }
+
         .footer {
           display: flex;
           justify-content: space-between;
@@ -135,21 +185,47 @@ export default function Results() {
           color: #000;
           margin-top: 80px;
         }
+
+        /* ── MOBILE ── */
+        @media (max-width: 600px) {
+          .topbar-brand { font-size: 13px; }
+          .download-btn, .logout-btn { padding: 7px 12px; font-size: 12px; }
+          .page { padding: 14px 10px 20px 10px; }
+          .header-logo img { width: 50px; height: 50px; }
+          .header-text .t1 { font-size: 13px; }
+          .header-text .t2 { font-size: 10px; }
+          .header-text .t3 { font-size: 11px; }
+          .info-block { font-size: 11px; }
+          .sem-heading { font-size: 11px; }
+          table { font-size: 10px; min-width: 500px; }
+          .grade-box { font-size: 9.5px; }
+          .footer { font-size: 10px; margin-top: 40px; }
+        }
+
+        /* ── PRINT ── */
         @media print {
           * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
           body { background: #fff !important; margin: 0; padding: 0; }
-          .screen-wrapper { display: block; padding: 0; }
-          .download-btn { display: none !important; }
-          .page { width: 100%; box-shadow: none; margin: 0; padding: 16px 20px 20px 20px; }
+          .topbar { display: none !important; }
+          .screen-wrapper { padding: 0; }
+          .page { width: 100%; max-width: 100%; box-shadow: none; padding: 16px 20px 20px 20px; }
           th { background: #eeeeee !important; }
           .grade-box { background: #f5f5f5 !important; }
         }
       `}</style>
 
-      <div className="screen-wrapper">
-        <button className="download-btn" onClick={downloadPDF}>⬇ Download PDF</button>
+      {/* TOP BAR */}
+      <div className="topbar">
+        <div className="topbar-brand">ION<span>EDUCATION</span></div>
+        <div className="topbar-actions">
+          <button className="download-btn" onClick={downloadPDF}>⬇ Download PDF</button>
+          <button className="logout-btn" onClick={logout}>Logout</button>
+        </div>
+      </div>
 
+      <div className="screen-wrapper">
         <div className="page">
+
           <div className="header">
             <div className="header-logo">
               <img src="/logo.png" alt="Logo" />
@@ -218,6 +294,7 @@ export default function Results() {
             <span>CONTROLLER OF EXAMINATIONS</span>
             <span>PRINCIPAL</span>
           </div>
+
         </div>
       </div>
     </>
