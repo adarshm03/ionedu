@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
 export default function Results() {
   const router = useRouter();
+  const pageRef = useRef(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -12,7 +13,7 @@ export default function Results() {
     }
   }, []);
 
-  const downloadPDF = () => {
+  const downloadPDF = async () => {
     const now = new Date();
     const dd = String(now.getDate()).padStart(2, '0');
     const mm = String(now.getMonth() + 1).padStart(2, '0');
@@ -20,11 +21,19 @@ export default function Results() {
     const hh = String(now.getHours()).padStart(2, '0');
     const min = String(now.getMinutes()).padStart(2, '0');
     const ss = String(now.getSeconds()).padStart(2, '0');
-    const filename = `Results_${dd}-${mm}-${yyyy}_${hh}-${min}-${ss}`;
-    const original = document.title;
-    document.title = filename;
-    window.print();
-    document.title = original;
+    const filename = `Results_${dd}-${mm}-${yyyy}_${hh}-${min}-${ss}.pdf`;
+
+    const html2pdf = (await import('html2pdf.js')).default;
+
+    const opt = {
+      margin: [10, 10, 10, 10],
+      filename: filename,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' },
+    };
+
+    html2pdf().set(opt).from(pageRef.current).save();
   };
 
   const logout = () => {
@@ -42,7 +51,6 @@ export default function Results() {
 
       <style>{`
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
           font-family: Helvetica, Arial, sans-serif;
           background: #f0f0f0;
@@ -50,7 +58,6 @@ export default function Results() {
           font-size: 13px;
         }
 
-        /* TOP BAR */
         .topbar {
           background: #fff;
           border-bottom: 1px solid #ddd;
@@ -91,12 +98,8 @@ export default function Results() {
         }
         .logout-btn:hover { background: #fff5f5; }
 
-        /* WRAPPER */
-        .screen-wrapper {
-          padding: 20px 12px 40px 12px;
-        }
+        .screen-wrapper { padding: 20px 12px 40px 12px; }
 
-        /* STUDENT INFO CARD - mobile */
         .info-card {
           background: #fff;
           border-radius: 8px;
@@ -114,7 +117,7 @@ export default function Results() {
         }
         .info-card-row:last-child { border-bottom: none; }
         .info-card-row .lbl { color: #666; }
-        .info-card-row .val { font-weight: bold; color: #000; }
+        .info-card-row .val { font-weight: bold; }
         .sgpa-badge {
           display: inline-block;
           background: #3d7a7a;
@@ -126,7 +129,6 @@ export default function Results() {
           margin-top: 10px;
         }
 
-        /* PAGE (desktop result sheet) */
         .page {
           max-width: 900px;
           margin: 0 auto;
@@ -135,11 +137,7 @@ export default function Results() {
           box-shadow: 0 2px 12px rgba(0,0,0,0.12);
         }
 
-        .header {
-          display: flex;
-          align-items: center;
-          margin-bottom: 18px;
-        }
+        .header { display: flex; align-items: center; margin-bottom: 18px; }
         .header-logo { width: 80px; flex-shrink: 0; }
         .header-logo img { width: 80px; height: 80px; object-fit: contain; display: block; }
         .header-text { flex: 1; text-align: center; line-height: 1.4; }
@@ -158,19 +156,9 @@ export default function Results() {
 
         .sem-heading { font-size: 13px; font-weight: bold; margin-bottom: 6px; }
 
-        /* TABLE SCROLL WRAPPER */
-        .table-scroll {
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-        }
+        .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
-        table {
-          width: 100%;
-          border-collapse: collapse;
-          font-size: 12px;
-          table-layout: fixed;
-          min-width: 620px;
-        }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; min-width: 620px; }
         th {
           background: #eeeeee;
           border: 1px solid #000;
@@ -216,12 +204,9 @@ export default function Results() {
           margin-top: 80px;
         }
 
-        /* MOBILE */
         @media (max-width: 640px) {
           .info-card { display: block; }
-          .page {
-            padding: 14px 12px 20px 12px;
-          }
+          .page { padding: 14px 12px 20px 12px; }
           .header-logo img { width: 48px; height: 48px; }
           .header-text .t1 { font-size: 12px; }
           .header-text .t2 { font-size: 10px; }
@@ -238,18 +223,13 @@ export default function Results() {
           .footer { font-size: 9px; margin-top: 30px; }
         }
 
-        /* PRINT */
         @media print {
           * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
           body { background: #fff !important; margin: 0; padding: 0; }
           .topbar { display: none !important; }
           .info-card { display: none !important; }
           .screen-wrapper { padding: 0; }
-          .page {
-            max-width: 100%;
-            box-shadow: none;
-            padding: 16px 20px 20px 20px;
-          }
+          .page { max-width: 100%; box-shadow: none; padding: 16px 20px 20px 20px; }
           .info-block { display: flex !important; }
           th { background: #eeeeee !important; }
           .grade-box { background: #f5f5f5 !important; }
@@ -257,18 +237,16 @@ export default function Results() {
         }
       `}</style>
 
-      {/* TOP BAR */}
       <div className="topbar">
         <div className="topbar-brand">ION<span>EDUCATION</span></div>
         <div className="topbar-actions">
-          <button className="download-btn" onClick={downloadPDF}>⬇ PDF</button>
+          <button className="download-btn" onClick={downloadPDF}>⬇ Download PDF</button>
           <button className="logout-btn" onClick={logout}>Logout</button>
         </div>
       </div>
 
       <div className="screen-wrapper">
 
-        {/* MOBILE INFO CARD */}
         <div className="info-card">
           <div className="info-card-row"><span className="lbl">Name</span><span className="val">ADITYA R</span></div>
           <div className="info-card-row"><span className="lbl">Father</span><span className="val">T N RAMESHA</span></div>
@@ -280,8 +258,7 @@ export default function Results() {
           </div>
         </div>
 
-        {/* RESULT SHEET */}
-        <div className="page">
+        <div className="page" ref={pageRef}>
           <div className="header">
             <div className="header-logo"><img src="/logo.png" alt="Logo" /></div>
             <div className="header-text">
@@ -302,7 +279,9 @@ export default function Results() {
             </div>
           </div>
 
-          <div className="sem-heading">Semester 3 &nbsp;|&nbsp; Credits Earned: 20/20 &nbsp;&nbsp;&nbsp; SGPA: 7.71</div>
+          <div className="sem-heading">
+            Semester 3 &nbsp;|&nbsp; Credits Earned: 20/20 &nbsp;|&nbsp; SGPA: 7.71
+          </div>
 
           <div className="table-scroll">
             <table>
