@@ -97,9 +97,9 @@ export default function Login() {
             </button>
 
             {/* Forgot Password */}
-            <a href="#" style={styles.forgot} onClick={(e) => e.preventDefault()}>
-              Forgot Password?
-            </a>
+           <a href="/error" style={styles.forgot}>
+  Forgot Password?
+</a>
           </form>
         </div>
       </div>
