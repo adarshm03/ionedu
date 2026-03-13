@@ -302,7 +302,7 @@ export default function Results() {
             </div>
           </div>
 
-          <div className="sem-heading">Semester 3 &nbsp;|&nbsp; Credits Earned: 20/20 &nbsp;&nbsp;&nbsp; SGPA: 7.71</div>
+          <div className="sem-heading">Semester 3 &nbsp;|&nbsp; Credits Earned: 20/20 &nbsp;|&nbsp; SGPA: 7.71</div>
 
           <div className="table-scroll">
             <table>
