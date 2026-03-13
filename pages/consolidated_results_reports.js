@@ -37,21 +37,18 @@ export default function Results() {
 
       <style>{`
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
           font-family: Helvetica, Arial, sans-serif;
           background: #f0f0f0;
           color: #000;
           font-size: 13px;
         }
-
         .screen-wrapper {
           display: flex;
           flex-direction: column;
           align-items: center;
           padding: 30px 20px;
         }
-
         .download-btn {
           margin-bottom: 20px;
           background: #3d7a7a;
@@ -64,37 +61,24 @@ export default function Results() {
           cursor: pointer;
           letter-spacing: 0.3px;
         }
-
         .download-btn:hover { background: #2f6262; }
-
-        /* ── THE RESULT SHEET ── */
         .page {
           width: 900px;
           background: #fff;
           padding: 24px 30px 30px 30px;
           box-shadow: 0 2px 12px rgba(0,0,0,0.12);
         }
-
         .header {
           display: flex;
           align-items: center;
           margin-bottom: 18px;
         }
-        .header-logo {
-          width: 80px;
-          height: 80px;
-          flex-shrink: 0;
-          object-fit: contain;
-        }
-        .header-text {
-          flex: 1;
-          text-align: center;
-          line-height: 1.4;
-        }
-        .header-text .t1 { font-size: 20px; font-weight: bold; }
-        .header-text .t2 { font-size: 12px; }
-        .header-text .t3 { font-size: 13px; font-weight: bold; }
-
+        .header-logo { width: 80px; flex-shrink: 0; }
+        .header-logo img { width: 80px; height: 80px; object-fit: contain; display: block; }
+        .header-text { flex: 1; text-align: center; line-height: 1.4; }
+        .header-text .t1 { font-size: 20px; font-weight: bold; color: #000; }
+        .header-text .t2 { font-size: 12px; font-weight: normal; color: #000; }
+        .header-text .t3 { font-size: 13px; font-weight: bold; color: #000; }
         .info-block {
           display: flex;
           justify-content: space-between;
@@ -102,20 +86,9 @@ export default function Results() {
           font-size: 12.5px;
         }
         .info-row { line-height: 1.7; }
-        .info-row .val { font-weight: bold; }
-
-        .sem-heading {
-          font-size: 13px;
-          font-weight: bold;
-          margin-bottom: 6px;
-        }
-
-        table {
-          width: 100%;
-          border-collapse: collapse;
-          font-size: 12px;
-          table-layout: fixed;
-        }
+        .info-row .val { font-weight: bold; color: #000; }
+        .sem-heading { font-size: 13px; font-weight: bold; color: #000; margin-bottom: 6px; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
         th {
           background: #eeeeee;
           border: 1px solid #000;
@@ -124,63 +97,50 @@ export default function Results() {
           text-align: center;
           vertical-align: middle;
           line-height: 1.3;
+          color: #000;
         }
         td {
+          background: #fff;
           border: 1px solid #000;
           padding: 4px 6px;
           text-align: center;
           vertical-align: middle;
           line-height: 1.3;
-          background: #fff;
+          color: #000;
         }
-        .cl { text-align: left !important; font-weight: bold; }
-        .ccode { width: 90px; }
-        .ctitle {}
-        .cnum { width: 58px; }
-        .csml { width: 52px; }
-
+        .c1 { width: 90px; text-align:left!important; font-weight:bold; }
+        .c2 { text-align:left!important; font-weight:bold; }
+        .c3 { width: 58px; }
+        .c4 { width: 58px; }
+        .c5 { width: 52px; }
+        .c6 { width: 52px; }
+        .c7 { width: 58px; }
+        .c8 { width: 52px; }
+        .c9 { width: 52px; }
         .grade-box {
           background: #f5f5f5;
-          border: 1px solid #ccc;
+          border: 1px solid #cccccc;
           padding: 8px 12px 10px 12px;
           margin-top: 10px;
           font-size: 11px;
           line-height: 1.65;
+          color: #000;
         }
         .grade-box .gb-title { font-weight: bold; font-size: 11.5px; margin-bottom: 2px; }
-
         .footer {
           display: flex;
           justify-content: space-between;
           font-size: 11.5px;
           font-weight: bold;
+          color: #000;
           margin-top: 80px;
         }
-
-        /* ── PRINT STYLES ── */
         @media print {
           * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-
-          body {
-            background: #fff !important;
-            margin: 0;
-            padding: 0;
-          }
-
-          .screen-wrapper {
-            display: block;
-            padding: 0;
-          }
-
+          body { background: #fff !important; margin: 0; padding: 0; }
+          .screen-wrapper { display: block; padding: 0; }
           .download-btn { display: none !important; }
-
-          .page {
-            width: 100%;
-            box-shadow: none;
-            margin: 0;
-            padding: 16px 20px 20px 20px;
-          }
-
+          .page { width: 100%; box-shadow: none; margin: 0; padding: 16px 20px 20px 20px; }
           th { background: #eeeeee !important; }
           .grade-box { background: #f5f5f5 !important; }
         }
@@ -190,9 +150,10 @@ export default function Results() {
         <button className="download-btn" onClick={downloadPDF}>⬇ Download PDF</button>
 
         <div className="page">
-          {/* HEADER */}
           <div className="header">
-            <img src="/logo.png" alt="Logo" className="header-logo" />
+            <div className="header-logo">
+              <img src="/logo.png" alt="Logo" />
+            </div>
             <div className="header-text">
               <div className="t1">BANGALORE INSTITUTE OF TECHNOLOGY</div>
               <div className="t2">An Autonomous Institution under VTU</div>
@@ -200,7 +161,6 @@ export default function Results() {
             </div>
           </div>
 
-          {/* STUDENT INFO */}
           <div className="info-block">
             <div>
               <div className="info-row">Name of the Student&nbsp;&nbsp;:&nbsp;&nbsp;<span className="val">ADITYA R</span></div>
@@ -212,87 +172,39 @@ export default function Results() {
             </div>
           </div>
 
-          {/* SEM HEADING */}
-          <div className="sem-heading">
-            Semester 3 &nbsp;|&nbsp; Credits Earned: 13/20 &nbsp;&nbsp;&nbsp; SGPA: 3.9 &nbsp;|&nbsp; CGPA: 6.38
-          </div>
+          <div className="sem-heading">Semester 3 &nbsp;|&nbsp; Credits Earned: 20/20 &nbsp;&nbsp;&nbsp; SGPA: 7.71 &nbsp;&nbsp;</div>
 
-          {/* TABLE */}
           <table>
             <colgroup>
-              <col className="ccode" />
-              <col className="ctitle" />
-              <col className="cnum" />
-              <col className="cnum" />
-              <col className="csml" />
-              <col className="csml" />
-              <col className="cnum" />
-              <col className="csml" />
-              <col className="csml" />
+              <col className="c1"/><col className="c2"/><col className="c3"/><col className="c4"/>
+              <col className="c5"/><col className="c6"/><col className="c7"/><col className="c8"/><col className="c9"/>
             </colgroup>
             <thead>
               <tr>
-                <th className="cl ccode">Course Code</th>
-                <th className="cl">Course Title</th>
-                <th>Credits<br/>Reg</th>
-                <th>Credits<br/>Earned</th>
-                <th>CIA</th>
-                <th>SEE</th>
-                <th>Total</th>
-                <th>GR</th>
-                <th>GP</th>
+                <th className="c1">Course Code</th>
+                <th className="c2">Course Title</th>
+                <th className="c3">Credits<br/>Reg</th>
+                <th className="c4">Credits<br/>Earned</th>
+                <th className="c5">CIA</th>
+                <th className="c6">SEE</th>
+                <th className="c7">Total</th>
+                <th className="c8">GR</th>
+                <th className="c9">GP</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="cl">BCS301</td>
-                <td className="cl">Mathematics -III</td>
-                <td>3</td><td>3</td><td>33</td><td>18</td><td>51</td><td>C</td><td>05</td>
-              </tr>
-              <tr>
-                <td className="cl">BCS302</td>
-                <td className="cl">Digital Design &amp; Computer Organization</td>
-                <td>4</td><td>0</td><td>30</td><td>11</td><td>41</td><td>F</td><td>00</td>
-              </tr>
-              <tr>
-                <td className="cl">BCS303</td>
-                <td className="cl">Operating Systems</td>
-                <td>4</td><td>4</td><td>34</td><td>23</td><td>57</td><td>B</td><td>06</td>
-              </tr>
-              <tr>
-                <td className="cl">BCS304</td>
-                <td className="cl">Data Structures and Applications</td>
-                <td>3</td><td>3</td><td>22</td><td>25</td><td>47</td><td>P</td><td>04</td>
-              </tr>
-              <tr>
-                <td className="cl">BCSL305</td>
-                <td className="cl">Data Structures Lab</td>
-                <td>1</td><td>1</td><td>25</td><td>41</td><td>66</td><td>B+</td><td>07</td>
-              </tr>
-              <tr>
-                <td className="cl">BCS306A</td>
-                <td className="cl">Object Oriented Programming with Java</td>
-                <td>3</td><td>0</td><td>33</td><td>13</td><td>46</td><td>F</td><td>00</td>
-              </tr>
-              <tr>
-                <td className="cl">BUH307</td>
-                <td className="cl">Social Connect and Responsibility</td>
-                <td>1</td><td>1</td><td>96</td><td>NA</td><td>96</td><td>O</td><td>10</td>
-              </tr>
-              <tr>
-                <td className="cl">BCSL308D</td>
-                <td className="cl">Data Visualization with Python</td>
-                <td>1</td><td>1</td><td>46</td><td>44</td><td>90</td><td>O</td><td>10</td>
-              </tr>
-              <tr>
-                <td className="cl">BPEK309B</td>
-                <td className="cl">Physical Education</td>
-                <td>0</td><td>0</td><td>90</td><td>NA</td><td>90</td><td>PP</td><td>0</td>
-              </tr>
+              <tr><td className="c1">BCS301</td><td className="c2">Mathematics -III</td><td>3</td><td>3</td><td>39</td><td>32</td><td>71</td><td>A</td><td>08</td></tr>
+              <tr><td className="c1">BCS302</td><td className="c2">Digital Design &amp; Computer Organization</td><td>4</td><td>4</td><td>40</td><td>20</td><td>60</td><td>B+</td><td>07</td></tr>
+              <tr><td className="c1">BCS303</td><td className="c2">Operating Systems</td><td>4</td><td>4</td><td>42</td><td>33</td><td>75</td><td>A</td><td>08</td></tr>
+              <tr><td className="c1">BCS304</td><td className="c2">Data Structures and Applications</td><td>3</td><td>3</td><td>30</td><td>33</td><td>63</td><td>B+</td><td>07</td></tr>
+              <tr><td className="c1">BCSL305</td><td className="c2">Data Structures Lab</td><td>1</td><td>1</td><td>33</td><td>29</td><td>72</td><td>A</td><td>08</td></tr>
+              <tr><td className="c1">BCS306A</td><td className="c2">Object Oriented Programming with Java</td><td>3</td><td>3</td><td>31</td><td>31</td><td>62</td><td>B+</td><td>07</td></tr>
+              <tr><td className="c1">BUH307</td><td className="c2">Social Connect and Responsibility</td><td>1</td><td>1</td><td>96</td><td>NA</td><td>96</td><td>O</td><td>10</td></tr>
+              <tr><td className="c1">BCSL308D</td><td className="c2">Data Visualization with Python</td><td>1</td><td>1</td><td>46</td><td>44</td><td>90</td><td>O</td><td>10</td></tr>
+              <tr><td className="c1">BPEK309B</td><td className="c2">Physical Education</td><td>0</td><td>0</td><td>90</td><td>NA</td><td>90</td><td>PP</td><td>0</td></tr>
             </tbody>
           </table>
 
-          {/* GRADE BOX */}
           <div className="grade-box">
             <div className="gb-title">UG - Grade Pattern</div>
             <div>CIA - Continous Internal Assesment, SEE - Semester End Exam Marks, &nbsp;GP - Grade Point, &nbsp;GR- Grade</div>
@@ -302,7 +214,6 @@ export default function Results() {
             <div>SGPA = SUM(Grade Point * Credits)/SUM(Credits) | CGPA = SUM(Grade Point*Credits Earned)/SUM(Credit Earned)</div>
           </div>
 
-          {/* FOOTER */}
           <div className="footer">
             <span>CONTROLLER OF EXAMINATIONS</span>
             <span>PRINCIPAL</span>
